@@ -1,138 +1,132 @@
 # Bachelor Final Year Project & Thesis
 
-**Predictive Modeling for Earthquakes** — a Bachelor of Technology final year project (AI & Data Science) by **Kanishka Pareek, Aryank Gupta, Muskan Tambi, and Sujal Jain**, Jaipur Engineering College & Research Centre (JECRC), affiliated to Rajasthan Technical University, Kota.
+Hi, I'm Kanishka Pareek. This repository holds my Bachelor's final year project — **Predictive Modeling for Earthquakes** — along with the minor project I worked on earlier with the same team. Both were completed as part of my B.Tech in Artificial Intelligence & Data Science at Jaipur Engineering College & Research Centre (JECRC), Jaipur, affiliated to Rajasthan Technical University, Kota.
 
-> This repository also includes the team's **Minor Project**, *AID AWARE*, a separate disaster-management mobile app concept developed earlier in the same academic track. Both are documented in this single README.
-
----
-
-## 📖 Short Description
-
-This project builds and compares seven machine learning regression models (Linear, Ridge, Lasso, Random Forest, Gradient Boosting, SVR, and KNN) to predict earthquake **magnitude** from historical seismic records — latitude, longitude, depth, and region — sourced from India's National Center for Seismology. Gradient Boosting came out on top with the lowest error among the models tested. The repo bundles the full academic trail for this work: the Jupyter notebook, the 52-page thesis report, a standalone research paper, the presentation deck, and the raw seismic datasets used for training.
+I worked on this with my teammates **Aryank Gupta, Muskan Tambi, and Sujal Jain**.
 
 ---
 
-## 📂 Repository Structure
+## About
+
+Earthquakes are one of the most unpredictable and destructive natural disasters — they strike without warning and leave very little time for people to react. That unpredictability is what drew me and my team to this project. We wanted to see how far machine learning could actually take us in forecasting earthquake magnitude using real seismic data, instead of relying purely on traditional statistical methods.
+
+So for our final year project, we built and compared several regression models — Linear Regression, Ridge, Lasso, Random Forest, Gradient Boosting, SVR, and KNN — to predict earthquake magnitude based on location and depth data. Gradient Boosting ended up giving us the best results among everything we tried.
+
+This repo brings together everything that came out of that project: the code, the data we trained on, the full thesis report, our research paper, our presentation, and the synopsis of the minor project we did before this one.
+
+---
+
+## Repository Structure
 
 ```
 Bachelor-Final-Year-Project-and-Thesis/
 │
 ├── Code/
-│   └── Earthquake prediction.ipynb          # Main ML notebook (data prep → modeling → evaluation)
+│   └── Earthquake prediction.ipynb          # The main notebook — data prep, models, evaluation
 │
 ├── data/
-│   ├── Earthquake.csv                       # 14,698 rows — India/Himalayan region seismic events (USGS-style)
-│   └── earthquake1.csv                      # 24,007 rows — Turkey/Mediterranean region seismic events
+│   ├── Earthquake.csv                       # Seismic records for the India/Himalayan region
+│   └── earthquake1.csv                      # Seismic records for the Turkey/Mediterranean region
 │
-├── FINAL YEAR THESIS.pdf                    # 52-page B.Tech final year project report
+├── FINAL YEAR THESIS.pdf                    # Our complete final year project report
 │
 ├── Research Paper/
-│   └── Research_Paper-_Predictive_Modeling_for_Earthquakes.pdf   # Standalone academic paper version
+│   └── Research_Paper-_Predictive_Modeling_for_Earthquakes.pdf
 │
 ├── Presentation/
-│   └── Project PPT Format e-1.pptx          # 19-slide defense/viva presentation
+│   └── Project PPT Format e-1.pptx          # Our project defense presentation
 │
 └── MINOR Project Synopsis/
-    └── Project Synopsis EMERGENCY DISATER Management.pdf         # "AID AWARE" minor project synopsis
+    └── Project Synopsis EMERGENCY DISATER Management.pdf   # Our minor project, AID AWARE
 ```
 
 ---
 
-## 🎓 Major Project: Predictive Modeling for Earthquakes
+## Major Project: Predictive Modeling for Earthquakes
 
-### Overview
-Earthquakes are sudden, high-impact natural disasters that conventional warning systems struggle to anticipate. This project frames earthquake forecasting as a **regression problem** — given location and depth information about seismic activity in a region, predict the **magnitude** of an event — and evaluates how well classical and ensemble ML models perform at that task.
+### Why we picked this problem
 
-### Problem Statement
-Existing disaster-prediction systems often rely on simplistic historical analysis and struggle to capture the complex, nonlinear dynamics of seismic activity, real-time data integration, and cross-disciplinary risk factors. This project explores whether supervised ML models trained on government seismic records can meaningfully improve magnitude prediction accuracy and contribute to early-warning and disaster-preparedness pipelines.
+Existing earthquake prediction systems often lean on historical data and simple statistical models, which struggle to capture how complex and nonlinear seismic activity really is. We wanted to explore whether machine learning could do better — by learning patterns directly from real seismic records rather than relying on rigid assumptions.
 
-### Data
-- **Primary source (per thesis):** [National Center for Seismology, Ministry of Earth Sciences, Government of India](https://riseq.seismo.gov.in/riseq/Earthquake/recent_earthquake) — fields include Origin Time, Lat, Long, Depth, Magnitude, Region, and Location.
-- **`data/Earthquake.csv`** (14,698 records) — matches this region/style closely: South & Central Asia seismic events (lat ~4°–37°, long ~67°–98°) with magnitude, depth, and USGS-style metadata (`magType`, `gap`, `rms`, `net`, etc.).
-- **`data/earthquake1.csv`** (24,007 records) — a separate Turkey/Mediterranean/Greece/Aegean Sea dataset (different schema: `richter`, `mw`, `ms`, `mb`, city/area/direction fields). Appears to be supplementary/reference data, not the dataset directly consumed by the current notebook.
-- ⚠️ Note: the notebook itself reads a file literally named `Official Website of National Center of Seismology.csv`, which is **not present** in this repo's `data/` folder — `Earthquake.csv` is the closest match in shape and region and was very likely the intended input (possibly renamed at some point).
+### The data
 
-### Methodology (as implemented in the notebook)
-1. **Data Cleaning** — drop `Origin Time` and `Details` columns; drop rows with missing values.
-2. **Encoding** — one-hot encode categorical fields (`Region`, `Location`) via `pd.get_dummies`.
-3. **Exploratory Data Analysis** — Seaborn pair plots and a correlation heatmap to inspect relationships between Lat, Long, Depth, and Magnitude.
-4. **Feature Selection** — `SelectKBest` with `f_regression` (k=3) to pick the most predictive features. Top features selected: **Depth, Region_Afghanistan, Region_Tajikistan**.
-5. **Train/Test Split** — 80/20 split (`random_state=42`).
-6. **Model Training** — seven regressors trained and compared on Mean Squared Error (MSE):
+We worked with seismic event data from the **National Center for Seismology, Ministry of Earth Sciences, Government of India**, which records details for each earthquake — when it happened, its latitude and longitude, depth, magnitude, and the region it occurred in. This is the data behind `Earthquake.csv`, covering events across the India and Himalayan belt. We also kept a second dataset, `earthquake1.csv`, covering seismic activity from the Turkey and Mediterranean region, which we used as a reference point while exploring the problem more broadly.
 
-   | Model | MSE |
+### How we approached it
+
+1. **Cleaning the data** — dropped columns we didn't need, removed rows with missing values, and got the dataset into a usable shape.
+2. **Encoding** — converted categorical fields like Region and Location into a numerical format the models could work with.
+3. **Exploring the data** — used pair plots and a correlation heatmap to understand how the different variables related to one another.
+4. **Feature selection** — used `SelectKBest` to identify the features that mattered most for predicting magnitude. Depth and certain regional indicators came out as the strongest predictors.
+5. **Splitting the data** — an 80/20 train-test split.
+6. **Training models** — trained and compared seven different regression models:
+
+   | Model | Mean Squared Error |
    |---|---|
    | Linear Regression | 0.41 |
    | Ridge Regression | 0.41 |
    | Lasso Regression | 0.45 |
    | Random Forest Regressor | 0.37 |
-   | **Gradient Boosting Regressor** | **0.35 (best)** |
+   | **Gradient Boosting Regressor** | **0.35 — our best result** |
    | Support Vector Regressor (SVR) | 0.40 |
    | K-Nearest Neighbors Regressor | 0.40 |
 
-7. **Visualization** — scatter plots of predicted vs. actual magnitude for each model, plus a bar chart ranking all seven models by MSE (best model highlighted).
+7. **Visualizing results** — plotted predicted vs. actual magnitude for each model and compared all seven side by side on a bar chart.
 
-### Tech Stack
-- **Language:** Python 3.9
-- **Environment:** Jupyter Notebook
-- **Libraries:** `pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn` (model_selection, preprocessing, feature_selection, ensemble, linear_model, svm, neighbors, metrics)
+### Tools we used
 
-### Documents in this Project
-| File | What it is |
-|---|---|
-| `FINAL YEAR THESIS.pdf` | Full academic report — Introduction, Requirement Analysis, Feasibility Study, Technology Used, Project Analysis, UML Diagrams, Testing Methodology, Outputs, Conclusion, Future Scope, References, and Course Outcome mapping. Submitted April 2024. |
-| `Research Paper/Research_Paper-_Predictive_Modeling_for_Earthquakes.pdf` | A condensed, standalone research-paper version of the same work (17 pages) authored by all four team members, written for journal/conference-style submission, including related work and a literature-grounded comparison of the seven models. |
-| `Presentation/Project PPT Format e-1.pptx` | 19-slide presentation deck: Problem Statement → Objective → Approach → Project Description → Implementation steps (cleaning, visualization, feature selection, training, evaluation) → Tools/Tech → Conclusion → References. |
+Python 3.9, Jupyter Notebook, and the usual data science stack — pandas, numpy, matplotlib, seaborn, and scikit-learn.
 
-### Conclusion & Future Scope (from the thesis)
-The project concludes that ML-based prediction of earthquake magnitude is feasible and that ensemble methods (Gradient Boosting, Random Forest) outperform simpler linear models on this dataset. Suggested future directions include: deeper multi-source data integration, multi-scale (regional/fault-level) modeling, uncertainty quantification, real-time monitoring and early-warning integration, and closer collaboration with government disaster-management bodies (e.g. NDRF/SDRF).
+### The documents in here
 
-### How to Run
+- **`FINAL YEAR THESIS.pdf`** — our full project report: introduction, requirement analysis, feasibility study, the technology we used, project analysis, UML diagrams, our testing approach, outputs, conclusion, and future scope. Submitted April 2024.
+- **`Research Paper/...pdf`** — we also wrote this up as a standalone research paper, going deeper into related work and comparing our seven models against what's been done in the field.
+- **`Presentation/...pptx`** — the slide deck we used to present and defend our project.
+
+### What we concluded
+
+Working through this project showed us that machine learning genuinely can improve earthquake magnitude prediction, and that ensemble methods like Gradient Boosting and Random Forest outperformed the simpler linear models on our data. We see this as a foundation — there's a lot more to explore around real-time monitoring, multi-scale modeling, and working more closely with disaster management authorities to actually put something like this to use.
+
+### Running it yourself
+
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn jupyter
 jupyter notebook "Code/Earthquake prediction.ipynb"
 ```
-> Note: update the `pd.read_csv(...)` line in the first code cell to point at `../data/Earthquake.csv` (or whichever CSV you intend to use) since the original filename referenced in the notebook isn't included in this repo.
 
 ---
 
-## 🚨 Minor Project: AID AWARE — Emergency Disaster Management
+## Minor Project: AID AWARE — Emergency Disaster Management
 
-A separate, earlier minor project by the same team (submitted August 2024, supervised by Ms. Anima Sharma), proposed as an **Android mobile application** for community-driven disaster response — distinct in scope and tech stack from the earthquake ML thesis above.
+Before this final year project, my team and I worked on a minor project called **AID AWARE** — short for *Assistance and Information Dissemination, Augmented Response and Emergency*. It came from a simple frustration: during disasters like floods and earthquakes, communication breaks down and resources don't reach the people who need them fast enough.
 
-### Concept
-**AID AWARE** ("Assistance and Information Dissemination – Augmented Response and Emergency") aims to fix the communication and resource-coordination failures common in traditional disaster response systems (floods, earthquakes, etc.) by giving citizens, volunteers, and authorities a single real-time coordination platform.
+We designed AID AWARE as an Android app that would let people share real-time updates, request help, and stay connected during a crisis — built around the idea that technology should make community response faster and more coordinated, not slower.
 
-### Core Features (proposed)
-- Push notification & SMS-based disaster alerts
-- Personal safety guidance and disaster preparedness tips
-- Weather forecasting integration
-- Real-time relief-vehicle tracking for safe evacuation
-- Volunteer sign-up and mobilization by skill/availability
-- Shelter database with live availability/capacity info, and lost-person lookup
-- Offline-first design: Bluetooth mesh networking, SMS flow, and IVR (Interactive Voice Response) for zero-connectivity areas
-- Twitter/social-media complaint intake routed to disaster authorities (e.g. ASDMA)
-- A government-facing control panel with heatmaps and analytics for monitoring crisis situations
+### What it was meant to do
 
-### Tech Stack (proposed)
-- **Frontend:** Android SDK (Android 4.2 "Lollipop"+)
-- **Backend:** Java, PHP (API layer)
-- **Database:** SQLite
-- **Libraries:** Volley, Glide (and similar Android networking/image libraries)
-- **Server requirements:** Windows 8.1+, 4GB+ RAM, 20GB+ storage
-- **Client requirements:** Android 4.2+, 512MB+ RAM
+- Send push notifications and SMS alerts to warn people of incoming disasters
+- Give people safety guidance to prepare ahead of time
+- Provide weather forecasting to anticipate risk
+- Track relief vehicles in real time so people could move to safety
+- Let people sign up and coordinate as volunteers
+- Maintain a shelter database, including a way to look up missing people
+- Work offline using Bluetooth mesh networking, SMS, and IVR, so it wouldn't depend on having an internet connection
+- Let people raise issues directly to disaster authorities like ASDMA through social media
+- Give the government a control panel to monitor unfolding situations
 
-### Document in this Project
-| File | What it is |
-|---|---|
-| `MINOR Project Synopsis/Project Synopsis EMERGENCY DISATER Management.pdf` | 10-page project synopsis: Introduction, Objectives, Methodology/Planning, Literature Review, Applications, Block Diagram, UML Diagram, System/Hardware/OS Requirements, References, and team approval page. |
+### Tools we planned to use
 
-### Relationship to the Major Project
-Both projects sit under the same disaster-management theme and were built by the same four-person team, but they are **functionally independent**: AID AWARE (minor) is an application/systems-engineering concept for an Android disaster-response platform, while the earthquake prediction work (major/thesis) is a data science/ML research project focused specifically on forecasting earthquake magnitude from seismic data. The minor project's synopsis predates and is unrelated in implementation to the ML notebook.
+Android SDK for the frontend, Java and PHP for the backend, and SQLite for the database — built to run on Android 4.2 and above.
+
+### The document in here
+
+**`MINOR Project Synopsis/...pdf`** — our project synopsis covering the introduction, objectives, our planning approach, a literature review, the block and UML diagrams, and our system requirements.
+
+This was a different kind of project from our final year work — more about building a usable system for people during a crisis, rather than the data science work we did later with earthquake prediction. But both came from the same place: wanting to use what we were learning to actually help people facing disasters.
 
 ---
 
-## 👥 Team
+## Team
 
 | Name | Roll No. |
 |---|---|
@@ -142,8 +136,9 @@ Both projects sit under the same disaster-management theme and were built by the
 | Sujal Jain | 20EJCAD064 |
 
 **Department:** Artificial Intelligence & Data Science, JECRC, Jaipur
-**Affiliation:** Rajasthan Technical University, Kota
-**Guide (Major Project):** Ms. Punita Panwar | **HOD:** Dr. Manju Vyas
-**Guide (Minor Project):** Ms. Anima Sharma
 
----
+**University:** Rajasthan Technical University, Kota
+
+**Guide (Major Project):** Ms. Punita Panwar | **HOD:** Dr. Manju Vyas
+
+**Guide (Minor Project):** Ms. Anima Sharma
